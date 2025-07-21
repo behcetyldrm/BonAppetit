@@ -5,13 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class RecipeModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-
     val name: String,
     val ingredient: List<String>,
     val description: String,
-    val image: ByteArray?
+    val image: ByteArray?,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
