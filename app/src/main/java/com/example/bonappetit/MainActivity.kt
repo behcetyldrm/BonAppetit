@@ -1,6 +1,5 @@
 package com.example.bonappetit
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,14 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -38,7 +35,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.bonappetit.ui.theme.BonAppetitTheme
-import com.example.bonappetit.util.Screen
 import com.example.bonappetit.view.AddRecipeScreen
 import com.example.bonappetit.view.DetailScreen
 import com.example.bonappetit.view.MainScreen
@@ -57,25 +53,25 @@ class MainActivity : ComponentActivity() {
             BonAppetitTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    floatingActionButton = {if (currentRoute == Screen.MainScreenRoute.route){ AppBar(navController) }},
-                    topBar = {if( currentRoute == Screen.MainScreenRoute.route ){ TopBar() }}
+                    floatingActionButton = {if (currentRoute == "list_screen"){ AppBar(navController) }},
+                    topBar = {if( currentRoute == "list_screen" ){ TopBar() }}
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)){
 
-                        NavHost(navController = navController, startDestination = Screen.MainScreenRoute.route){
+                        NavHost(navController = navController, startDestination = "list_screen"){
 
-                            composable(Screen.MainScreenRoute.route) {
+                            composable("list_screen") {
                                 MainScreen(navController)
                             }
 
-                            composable(Screen.DetailScreenRoute.route, arguments = listOf(
+                            composable("detail_screen/{recipeId}", arguments = listOf(
                                 navArgument(name = "recipeId"){ type = NavType.IntType }
                             )) {
                                 val id = it.arguments?.getInt("recipeId")
                                 DetailScreen(navController = navController, recipeId = id ?:0)
                             }
 
-                            composable(Screen.AddRecipeScreenRoute.route){
+                            composable("add_recipe"){
                                 AddRecipeScreen(navController)
                             }
                         }
@@ -89,7 +85,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppBar(navController: NavController) {
     FloatingActionButton(
-        onClick = {navController.navigate(Screen.AddRecipeScreenRoute.route)},
+        onClick = {navController.navigate("add_recipe")},
         contentColor = Color.White,
         containerColor = Color(0xFFE64A19),
         shape = CircleShape

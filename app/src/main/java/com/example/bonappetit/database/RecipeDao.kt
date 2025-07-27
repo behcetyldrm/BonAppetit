@@ -11,10 +11,10 @@ import com.example.bonappetit.model.RecipeModel
 interface RecipeDao {
 
     @Query("SELECT * FROM RecipeModel")
-    fun getAllData() : List<RecipeModel>
+    suspend fun getAllData() : List<RecipeModel>
 
     @Query("SELECT * FROM RecipeModel WHERE id = :recipeId")
-    fun getSelectedData(recipeId: Int) : RecipeModel
+    suspend fun getSelectedData(recipeId: Int) : RecipeModel
 
     @Insert
     suspend fun insertData(recipe: RecipeModel)

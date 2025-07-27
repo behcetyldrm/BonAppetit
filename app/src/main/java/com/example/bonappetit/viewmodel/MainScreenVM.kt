@@ -10,6 +10,7 @@ import com.example.bonappetit.model.RecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,10 +22,12 @@ class MainScreenVM @Inject constructor(private val database: RecipeDatabase): Vi
     init {
         getRecipeList()
     }
+
     fun getRecipeList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            recipeList = dao.getAllData()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                recipeList = dao.getAllData()
+            }
         }
     }
-
 }
